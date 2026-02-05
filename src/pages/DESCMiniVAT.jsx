@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useVAT } from '../context/VATContext';
 import {
-  getTotalScore,
-  getRiskLevel,
-  getDomainBreakdown,
+  getDescTotalScore,
+  getDescRiskLevel,
+  getDescBreakdown,
   getNarrativeResponses,
 } from '../utils/scoring';
-import { getTotalMaxScore } from '../data/questions';
+import { getDescTotalMax } from '../data/questions';
 
 function ScoreBadge({ score, maxScore }) {
   if (score === null || score === undefined) return null;
@@ -43,10 +43,10 @@ export default function DESCMiniVAT() {
     return null;
   }
 
-  const totalScore = getTotalScore(state.answers);
-  const maxScore = getTotalMaxScore();
-  const risk = getRiskLevel(totalScore);
-  const breakdown = getDomainBreakdown(state.answers);
+  const totalScore = getDescTotalScore(state.answers);
+  const maxScore = getDescTotalMax();
+  const risk = getDescRiskLevel(totalScore);
+  const breakdown = getDescBreakdown(state.answers);
   const narratives = getNarrativeResponses(state.answers);
 
   const riskColorClasses = {
@@ -140,14 +140,14 @@ export default function DESCMiniVAT() {
           <h2 className="text-lg font-bold text-gray-900 mb-3">
             Domain Score Summary
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
             {breakdown.map((domain) => (
               <div
                 key={domain.id}
                 className="bg-gray-50 rounded-lg p-3 text-center border border-gray-100"
               >
                 <p className="text-xs text-gray-500 font-medium mb-1">
-                  {domain.shortName}
+                  {domain.name}
                 </p>
                 <p className="text-xl font-bold text-gray-900">
                   {domain.score}
@@ -190,42 +190,35 @@ export default function DESCMiniVAT() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {domain.questions.map((q) => (
-                    <tr key={q.id} className="align-top">
-                      <td className="py-2 pr-2 text-gray-400 font-mono text-xs">
-                        {q.id}
-                      </td>
-                      <td className="py-2 pr-2 text-gray-700">
-                        {q.text}
-                        {q.followUp && q.followUp.answer && (
-                          <div className="mt-2 ml-4 pl-3 border-l-2 border-indigo-200 text-xs">
-                            <p className="text-gray-500 italic">
-                              {q.followUp.text}
-                            </p>
-                            <p className="text-gray-700 mt-0.5">
-                              {q.followUp.answerLabel || q.followUp.answer}
-                            </p>
-                          </div>
-                        )}
-                      </td>
-                      <td className="py-2 pr-2 text-gray-600">
-                        {q.type === 'narrative' ? (
-                          <span className="italic text-gray-400">
-                            {q.answerLabel || '(no response)'}
-                          </span>
-                        ) : (
-                          q.answerLabel || '-'
-                        )}
-                      </td>
-                      <td className="py-2 text-right font-mono">
-                        {q.score !== null && q.score !== undefined ? (
-                          q.score
-                        ) : (
-                          <span className="text-gray-300">&mdash;</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {domain.questions.map((q) => {
+                    if (q.hidden) return null;
+                    return (
+                      <tr key={q.id} className="align-top">
+                        <td className="py-2 pr-2 text-gray-400 font-mono text-xs">
+                          {q.id}
+                        </td>
+                        <td className="py-2 pr-2 text-gray-700">
+                          {q.text}
+                        </td>
+                        <td className="py-2 pr-2 text-gray-600">
+                          {q.type === 'narrative' ? (
+                            <span className="italic text-gray-400">
+                              {q.answer || '(no response)'}
+                            </span>
+                          ) : (
+                            q.answerLabel || '-'
+                          )}
+                        </td>
+                        <td className="py-2 text-right font-mono">
+                          {q.score !== null && q.score !== undefined ? (
+                            q.score
+                          ) : (
+                            <span className="text-gray-300">&mdash;</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
                 <tfoot>
                   <tr className="border-t border-gray-300">

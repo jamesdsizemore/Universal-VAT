@@ -35,12 +35,13 @@ export default function Welcome() {
           Vulnerability Assessment Tool
         </p>
         <p className="text-gray-500 max-w-2xl mx-auto">
-          This tool guides you through a series of questions to assess client
-          vulnerability across key domains including housing history, risks,
-          daily functioning, and wellness. Upon completion, you may generate
-          either a <strong>DESC Mini VAT</strong> with extended scoring or a{' '}
-          <strong>CCS Simple VAT</strong> with a compact score for submission to
-          your service provider.
+          This tool guides you through 23 questions across 9 domains &mdash;
+          Survival Skills, Organization &amp; Orientation, Medical Risks, Substance Use,
+          Basic Needs, Social Behaviors, Mental Health, Communication, and Homelessness
+          &mdash; plus a CCS screening checklist. Upon completion, generate either a{' '}
+          <strong>DESC Mini VAT</strong> with extended scoring or a{' '}
+          <strong>CCS/CCA High Acuity Shelter Referral</strong> with a compact score
+          for submission to your service provider.
         </p>
       </div>
 
@@ -50,8 +51,9 @@ export default function Welcome() {
             DESC Mini VAT
           </h3>
           <p className="text-sm text-gray-500">
-            Extended scoring with detailed domain-by-domain breakdown, individual
-            question scores, risk levels per domain, and all narrative responses.
+            Extended scoring (0&ndash;48) with detailed domain-by-domain breakdown,
+            individual question scores, risk levels per domain, and all narrative
+            responses.
           </p>
         </div>
         <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
@@ -59,8 +61,9 @@ export default function Welcome() {
             CCS Simple VAT
           </h3>
           <p className="text-sm text-gray-500">
-            Compact score with a single composite vulnerability score, overall
-            risk level, domain summary, and key findings.
+            Compact score (0&ndash;21) with qualifying history domains, CCS screening
+            checklist, overall risk level, and key findings for high acuity shelter
+            referral.
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useVAT } from '../context/VATContext';
-import { getTotalScore, getRiskLevel, getCCSTotalScore, getCCSRiskLevel } from '../utils/scoring';
-import { getTotalMaxScore, getCCSTotalMaxScore } from '../data/questions';
+import { getDescTotalScore, getDescRiskLevel, getCCSTotalScore, getCCSRiskLevel } from '../utils/scoring';
+import { getDescTotalMax, getCCSTotalMax } from '../data/questions';
 
 export default function FormatSelection() {
   const state = useVAT();
@@ -12,12 +12,12 @@ export default function FormatSelection() {
     return null;
   }
 
-  const descScore = getTotalScore(state.answers);
-  const descMax = getTotalMaxScore();
-  const descRisk = getRiskLevel(descScore);
+  const descScore = getDescTotalScore(state.answers);
+  const descMax = getDescTotalMax();
+  const descRisk = getDescRiskLevel(descScore);
 
   const ccsScore = getCCSTotalScore(state.answers);
-  const ccsMax = getCCSTotalMaxScore(); // 21
+  const ccsMax = getCCSTotalMax();
   const ccsRisk = getCCSRiskLevel(ccsScore);
 
   const riskColorClasses = {
@@ -65,7 +65,7 @@ export default function FormatSelection() {
             DESC Mini VAT
           </h4>
           <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
-            Extended Scoring
+            Extended Scoring (0&ndash;{descMax})
           </p>
 
           {/* Score preview */}
@@ -84,7 +84,7 @@ export default function FormatSelection() {
           </div>
 
           <ul className="text-sm text-gray-500 space-y-1">
-            <li>- Domain-by-domain score breakdown</li>
+            <li>- 9 domain score breakdown</li>
             <li>- Individual question scores</li>
             <li>- Risk level per domain</li>
             <li>- All narrative responses</li>
@@ -121,10 +121,10 @@ export default function FormatSelection() {
 
           <ul className="text-sm text-gray-500 space-y-1">
             <li>- Single composite score</li>
-            <li>- Overall risk level</li>
-            <li>- Domain summary scores</li>
+            <li>- Qualifying history domains</li>
+            <li>- CCS screening checklist</li>
             <li>- Key findings overview</li>
-            <li>- Compact, one-page format</li>
+            <li>- Compact referral format</li>
           </ul>
         </button>
       </div>

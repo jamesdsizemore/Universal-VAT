@@ -1,465 +1,347 @@
+// =============================================================
+// DESC CE Mini-VAT Questions (9 domains, 23 questions)
+// Scoring: each MC option a=0, b=1, c=2, d=3
+// =============================================================
+
 export const domains = [
   {
-    id: 'housing_history',
-    name: 'A. History of Housing & Homelessness',
-    shortName: 'Housing History',
-    description:
-      'Questions about current living situation and history of homelessness.',
+    id: 'survival_skills',
+    name: 'Survival Skills',
     questions: [
       {
-        id: 'A1',
-        text: 'Where do you sleep most frequently?',
+        id: 'Q1',
+        text: 'Do they have their belongings or benefits taken, i.e. EBT or Direct Express cards stolen, or been the victim of assault or other interpersonal violence within the last twelve months',
         type: 'multiple_choice',
         options: [
-          { value: 'own_housing', label: 'Own apartment or house', score: 0, ccsScore: 0 },
-          {
-            value: 'family_friends',
-            label: 'Staying with family or friends (couch surfing)',
-            score: 1, ccsScore: 0,
-          },
-          { value: 'shelter', label: 'Emergency shelter', score: 2, ccsScore: 1 },
-          {
-            value: 'transitional',
-            label: 'Transitional housing program',
-            score: 1, ccsScore: 0,
-          },
-          {
-            value: 'vehicle',
-            label: 'Vehicle (car, van, RV)',
-            score: 3, ccsScore: 1,
-          },
-          {
-            value: 'outdoors',
-            label: 'Outdoors / street / park / encampment',
-            score: 4, ccsScore: 2,
-          },
-          {
-            value: 'abandoned',
-            label: 'Abandoned building or other place not meant for habitation',
-            score: 4, ccsScore: 2,
-          },
+          { value: 'a', label: 'Never', score: 0 },
+          { value: 'b', label: 'Once or twice in the last year', score: 1 },
+          { value: 'c', label: 'Sometimes but not recently', score: 2 },
+          { value: 'd', label: 'Frequently or very recently', score: 3 },
         ],
       },
       {
-        id: 'A2',
-        text: 'How long have you been continuously homeless this current episode?',
+        id: 'Q2',
+        text: 'Do they share concerns about their safety?',
         type: 'multiple_choice',
         options: [
-          { value: 'less_1_month', label: 'Less than 1 month', score: 0, ccsScore: 0 },
-          { value: '1_3_months', label: '1 - 3 months', score: 1, ccsScore: 0 },
-          { value: '3_6_months', label: '3 - 6 months', score: 2, ccsScore: 0 },
-          { value: '6_12_months', label: '6 - 12 months', score: 3, ccsScore: 1 },
-          { value: 'more_1_year', label: 'More than 1 year', score: 4, ccsScore: 1 },
+          { value: 'a', label: 'No', score: 0 },
+          { value: 'b', label: 'Yes but seems to be able to safety plan or navigate away from unsafe situations', score: 1 },
+          { value: 'c', label: 'Yes but seems to have challenges safety planning or navigating away from unsafe situations', score: 2 },
+          { value: 'd', label: 'No but frequently find themselves in unsafe situations', score: 3 },
         ],
       },
       {
-        id: 'A3',
-        text: 'How many separate times (episodes) have you experienced homelessness in the past 3 years?',
-        type: 'multiple_choice',
-        options: [
-          { value: 'first_time', label: 'This is my first time', score: 0, ccsScore: 0 },
-          { value: '2_times', label: '2 times', score: 1, ccsScore: 0 },
-          { value: '3_times', label: '3 times', score: 2, ccsScore: 1 },
-          { value: '4_plus', label: '4 or more times', score: 4, ccsScore: 1 },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'risks',
-    name: 'B. Risks',
-    shortName: 'Risks',
-    description:
-      'Questions about emergency services, safety, and legal concerns.',
-    questions: [
-      {
-        id: 'B1',
-        text: 'How many times have you visited the emergency room in the past 6 months?',
-        type: 'multiple_choice',
-        options: [
-          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
-          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
-          { value: '6_9', label: '6 - 9 times', score: 3, ccsScore: 1 },
-          { value: '10_plus', label: '10 or more times', score: 4, ccsScore: 1 },
-        ],
-      },
-      {
-        id: 'B2',
-        text: 'How many times have you been hospitalized (admitted overnight or longer) in the past 6 months?',
-        type: 'multiple_choice',
-        options: [
-          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
-          { value: '3_5', label: '3 - 5 times', score: 3, ccsScore: 1 },
-          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
-        ],
-      },
-      {
-        id: 'B3',
-        text: 'How many times have you used crisis services (e.g., crisis line, crisis team, sobering center) in the past 6 months?',
-        type: 'multiple_choice',
-        options: [
-          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
-          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
-          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
-        ],
-      },
-      {
-        id: 'B4',
-        text: 'How many times have you had interactions with police or law enforcement in the past 6 months?',
-        type: 'multiple_choice',
-        options: [
-          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
-          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
-          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
-        ],
-      },
-      {
-        id: 'B5',
-        text: 'Have you been attacked or beaten up since becoming homeless?',
-        type: 'yes_no',
-        yesScore: 4,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'B6',
-        text: 'Have you threatened to or actually harmed yourself or anyone else in the past year?',
-        type: 'yes_no',
-        yesScore: 4,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'B7',
-        text: 'Do you have any pending legal issues (e.g., warrants, court dates, probation)?',
-        type: 'yes_no',
-        yesScore: 2,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'B8',
-        text: 'Please describe any current safety concerns or risks you are facing:',
+        id: 'Q3',
+        text: 'Please share specific observations or incidents to justify above selection',
         type: 'narrative',
       },
     ],
   },
   {
-    id: 'socialization',
-    name: 'C. Socialization & Daily Functioning',
-    shortName: 'Daily Functioning',
-    description:
-      'Questions about daily living skills, social connections, and functioning.',
+    id: 'organization_orientation',
+    name: 'Organization and Orientation',
     questions: [
       {
-        id: 'C1',
-        text: 'How would you rate your ability to take care of basic daily needs (hygiene, meals, laundry)?',
+        id: 'Q4',
+        text: 'Do they generally track their surroundings well i.e. can recall history and names, remember to attend to daily tasks, know how to navigate the bus system, etc?',
         type: 'multiple_choice',
         options: [
-          {
-            value: 'independent',
-            label: 'I handle these independently without difficulty',
-            score: 0, ccsScore: 0,
-          },
-          {
-            value: 'mostly',
-            label: 'I manage most of the time but sometimes struggle',
-            score: 1, ccsScore: 0,
-          },
-          {
-            value: 'difficulty',
-            label: 'I often have difficulty and need some assistance',
-            score: 2, ccsScore: 1,
-          },
-          {
-            value: 'significant',
-            label: 'I have significant difficulty and regularly need help',
-            score: 3, ccsScore: 2,
-          },
-          {
-            value: 'unable',
-            label: 'I am unable to take care of these needs on my own',
-            score: 4, ccsScore: 2,
-          },
+          { value: 'a', label: 'Yes', score: 0 },
+          { value: 'b', label: 'Most of the time', score: 1 },
+          { value: 'c', label: 'Sometimes', score: 2 },
+          { value: 'd', label: 'Never', score: 3 },
         ],
       },
       {
-        id: 'C2',
-        text: 'How would you rate your ability to manage money (budgeting, paying bills, avoiding exploitation)?',
+        id: 'Q5',
+        text: 'Is this individual able to independently make and attend appointments without prompting or follow up from others?',
         type: 'multiple_choice',
         options: [
-          {
-            value: 'well',
-            label: 'I manage my money well on my own',
-            score: 0, ccsScore: 0,
-          },
-          {
-            value: 'some_difficulty',
-            label: 'I have some difficulty but generally manage',
-            score: 1, ccsScore: 0,
-          },
-          {
-            value: 'often_struggle',
-            label: 'I often struggle with money management',
-            score: 2, ccsScore: 1,
-          },
-          {
-            value: 'significant',
-            label:
-              'I have significant difficulty and money is frequently mismanaged',
-            score: 3, ccsScore: 1,
-          },
-          {
-            value: 'unable',
-            label: 'I cannot manage money on my own at all',
-            score: 4, ccsScore: 1,
-          },
+          { value: 'a', label: 'Yes', score: 0 },
+          { value: 'b', label: 'Most of the time', score: 1 },
+          { value: 'c', label: 'Sometimes', score: 2 },
+          { value: 'd', label: 'Never', score: 3 },
         ],
       },
       {
-        id: 'C3',
-        text: 'How would you describe your social relationships and support network?',
-        type: 'multiple_choice',
-        options: [
-          {
-            value: 'strong',
-            label:
-              'I have a strong support network of family, friends, or community',
-            score: 0, ccsScore: 0,
-          },
-          {
-            value: 'some',
-            label: 'I have some supportive relationships',
-            score: 1, ccsScore: 0,
-          },
-          {
-            value: 'few',
-            label: 'I have very few connections and often feel isolated',
-            score: 2, ccsScore: 1,
-          },
-          {
-            value: 'conflict',
-            label:
-              'My relationships are mostly conflictual or harmful',
-            score: 3, ccsScore: 1,
-          },
-          {
-            value: 'none',
-            label: 'I have no support network at all',
-            score: 4, ccsScore: 1,
-          },
-        ],
-      },
-      {
-        id: 'C4',
-        text: 'Please describe any activities you have difficulty doing because of a physical, mental, or emotional condition:',
+        id: 'Q6',
+        text: 'Please share specific observations or incidents to justify above selection',
         type: 'narrative',
       },
     ],
   },
   {
-    id: 'wellness',
-    name: 'D. Wellness',
-    shortName: 'Wellness',
-    description:
-      'Questions about physical health, mental health, substance use, and disabilities.',
+    id: 'medical_risks',
+    name: 'Medical Risks',
     questions: [
       {
-        id: 'D1',
-        text: 'How would you rate your overall physical health?',
+        id: 'Q7',
+        text: 'Does this person have any known medical diagnoses or medications. If there are no known diagnoses or medications, do they have any unexplained medical symptoms including but not limited to: swelling, untreated open wounds, shortness of breath, chest pains, unexplained weight loss, chronic cough, incontinent of urine and stool',
         type: 'multiple_choice',
         options: [
-          { value: 'excellent', label: 'Excellent', score: 0, ccsScore: 0 },
-          { value: 'good', label: 'Good', score: 1, ccsScore: 0 },
-          { value: 'fair', label: 'Fair', score: 2, ccsScore: 0 },
-          { value: 'poor', label: 'Poor', score: 3, ccsScore: 1 },
-          {
-            value: 'very_poor',
-            label: 'Very poor / serious health conditions',
-            score: 4, ccsScore: 1,
-          },
+          { value: 'a', label: 'No known or observed medical challenges', score: 0 },
+          { value: 'b', label: 'Known or observed medical conditions that have minor impacts', score: 1 },
+          { value: 'c', label: 'Known or observed medical conditions that require ongoing treatment', score: 2 },
+          { value: 'd', label: 'Known or observed medical conditions that have resulted in hospitalization recently and has major impacts on daily living', score: 3 },
         ],
       },
       {
-        id: 'D2',
-        text: 'Do you have any chronic health conditions (e.g., diabetes, heart disease, HIV/AIDS, hepatitis)?',
-        type: 'yes_no',
-        yesScore: 2,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-        followUp: {
-          id: 'D2a',
-          text: 'If yes, please describe your chronic health conditions:',
-          type: 'narrative',
-        },
-      },
-      {
-        id: 'D3',
-        text: 'Are you currently taking any prescribed medications?',
-        type: 'yes_no',
-        yesScore: 1,
-        noScore: 0,
-        ccsYesScore: 0,
-        ccsNoScore: 0,
-        followUp: {
-          id: 'D3a',
-          text: 'If yes, are you able to take them as prescribed consistently?',
-          type: 'multiple_choice',
-          options: [
-            { value: 'always', label: 'Yes, always', score: 0, ccsScore: 0 },
-            { value: 'usually', label: 'Usually, but sometimes miss doses', score: 1, ccsScore: 0 },
-            { value: 'rarely', label: 'Rarely - I often cannot access or take them', score: 2, ccsScore: 0 },
-            { value: 'never', label: 'No - I am unable to take them as prescribed', score: 3, ccsScore: 0 },
-          ],
-        },
-      },
-      {
-        id: 'D4',
-        text: 'How often do you use alcohol or drugs?',
+        id: 'Q8',
+        text: 'If there is a known medical diagnosis and/or prescribed medication, are they regularly taking medications and/or following through with treatment plan',
         type: 'multiple_choice',
+        showWhen: { questionId: 'Q7', notValue: 'a' },
         options: [
-          { value: 'never', label: 'Never', score: 0, ccsScore: 0 },
-          {
-            value: 'rarely',
-            label: 'Rarely (a few times a year or less)',
-            score: 0, ccsScore: 0,
-          },
-          {
-            value: 'monthly',
-            label: 'Monthly or a few times a month',
-            score: 1, ccsScore: 0,
-          },
-          { value: 'weekly', label: 'Weekly', score: 2, ccsScore: 1 },
-          { value: 'daily', label: 'Daily or almost daily', score: 4, ccsScore: 1 },
+          { value: 'a', label: 'Consistently following through with treatment and/or medication wholly independently', score: 0 },
+          { value: 'b', label: 'Most of the time following through with treatment with staff support', score: 1 },
+          { value: 'c', label: 'Sometimes following through despite staff support', score: 2 },
+          { value: 'd', label: 'Never following through or refusing staff support though clearly needing medical support', score: 3 },
         ],
       },
       {
-        id: 'D5',
-        text: 'Has your drinking or drug use ever led to you being kicked out, losing housing, or having trouble keeping housing?',
-        type: 'yes_no',
-        yesScore: 3,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'D6',
-        text: 'Have you ever been told you have a mental health condition (e.g., depression, anxiety, PTSD, bipolar disorder, schizophrenia)?',
-        type: 'yes_no',
-        yesScore: 2,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-        followUp: {
-          id: 'D6a',
-          text: 'If yes, please describe your mental health condition(s):',
-          type: 'narrative',
-        },
-      },
-      {
-        id: 'D7',
-        text: 'Do you have a co-occurring mental health and substance use condition (dual diagnosis)?',
-        type: 'yes_no',
-        yesScore: 3,
-        noScore: 0,
-        ccsYesScore: 1,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'D8',
-        text: 'Do you have any physical, developmental, or cognitive disabilities?',
-        type: 'yes_no',
-        yesScore: 2,
-        noScore: 0,
-        ccsYesScore: 0,
-        ccsNoScore: 0,
-        followUp: {
-          id: 'D8a',
-          text: 'If yes, please describe your disability or disabilities:',
-          type: 'narrative',
-        },
-      },
-      {
-        id: 'D9',
-        text: 'Have you ever had a serious brain injury or head trauma?',
-        type: 'yes_no',
-        yesScore: 2,
-        noScore: 0,
-        ccsYesScore: 0,
-        ccsNoScore: 0,
-      },
-      {
-        id: 'D10',
-        text: 'Please describe any additional physical health, mental health, or substance use concerns:',
+        id: 'Q9',
+        text: 'Please share specific observations or incidents to justify above selection',
         type: 'narrative',
+      },
+    ],
+  },
+  {
+    id: 'substance_use',
+    name: 'Substance Use',
+    questions: [
+      {
+        id: 'Q10',
+        text: 'What are impacts from substance use?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'None or do not use', score: 0 },
+          { value: 'b', label: 'Minor i.e. some challenges but seems to have figured out how to manage use and meeting his/her needs', score: 1 },
+          { value: 'c', label: 'Moderate i.e. clear challenges related to use with difficulty managing, some conflicts or engagements with law enforcement, impacting ability to follow through with needs or goals', score: 2 },
+          { value: 'd', label: 'Severe i.e. recent or frequent overdoses, other medical challenges related to substance use, experiences withdrawal symptoms, frequent conflicts or engagement with law enforcement, etc', score: 3 },
+        ],
+      },
+      {
+        id: 'Q11',
+        text: 'Are they getting support for their substance use disorder i.e. seeing a Substance Use Disorder Professional, on medication assisted treatment such as buprenorphine, plans for inpatient treatment, etc?',
+        type: 'multiple_choice',
+        showWhen: { questionId: 'Q10', notValue: 'a' },
+        options: [
+          { value: 'a', label: 'Consistently following through with treatment and recovery wholly independently', score: 0 },
+          { value: 'b', label: 'Most of the time following through with treatment and recovery with staff support', score: 1 },
+          { value: 'c', label: 'Sometimes following through with treatment and recovery with staff support', score: 2 },
+          { value: 'd', label: 'Never following through or refusing staff support though clearly needing support', score: 3 },
+        ],
+      },
+      {
+        id: 'Q12',
+        text: 'Please share specific observations or incidents to justify above selection',
+        type: 'narrative',
+      },
+    ],
+  },
+  {
+    id: 'basic_needs',
+    name: 'Basic Needs',
+    questions: [
+      {
+        id: 'Q13',
+        text: 'Are they currently meeting basic needs i.e. food, clothing, shelter, and hygiene',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'Yes, meeting hygiene and food needs independently', score: 0 },
+          { value: 'b', label: 'Yes, mostly meeting basic needs with staff support', score: 1 },
+          { value: 'c', label: 'Somewhat meeting needs, i.e. poor hygiene, unfamiliar with food resources like food banks or meals, no income, even with staff support', score: 2 },
+          { value: 'd', label: 'Rarely or not at all meeting needs, i.e. poor hygiene, not getting enough to eat or eating from garbage, and refuses staff support', score: 3 },
+        ],
+      },
+      {
+        id: 'Q14',
+        text: 'Are they able to maintain healthy and safe living conditions',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'Yes, no issues managing independently', score: 0 },
+          { value: 'b', label: 'Mostly able to manage belongings and personal space with staff support', score: 1 },
+          { value: 'c', label: 'Difficulty maintaining, i.e. accumulating a lot of belongings, belongings attracting pests or becoming unsanitary, even with staff support', score: 2 },
+          { value: 'd', label: 'Difficulty maintaining, i.e. accumulating a lot of belongings, belongings attracting pests or becoming unsanitary, and refuses staff support', score: 3 },
+        ],
+      },
+      {
+        id: 'Q15',
+        text: 'Please share specific observations or incidents to justify above selection',
+        type: 'narrative',
+      },
+    ],
+  },
+  {
+    id: 'social_behaviors',
+    name: 'Social Behaviors',
+    questions: [
+      {
+        id: 'Q16',
+        text: 'Have they been barred from any services or have been to jail?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'No or not in the last 12 months', score: 0 },
+          { value: 'b', label: 'Once or twice in the last year', score: 1 },
+          { value: 'c', label: 'Sometimes but not recently', score: 2 },
+          { value: 'd', label: 'Frequently or very recently', score: 3 },
+        ],
+      },
+      {
+        id: 'Q17',
+        text: 'Are they able to communicate and engage appropriately with community members and staff?',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'Yes, no known crisis or escalation in last twelve months', score: 0 },
+          { value: 'b', label: 'Some minor conflicts but mostly gets along well', score: 1 },
+          { value: 'c', label: 'Occasional and recent conflicts with others that seem to be related to inability to tolerate others', score: 2 },
+          { value: 'd', label: 'Frequent and recent conflicts with others that seem to be related to inability to tolerate others. Has resulted in crisis response', score: 3 },
+        ],
+      },
+      {
+        id: 'Q18',
+        text: 'Please share specific observations or incidents to justify above selection',
+        type: 'narrative',
+      },
+    ],
+  },
+  {
+    id: 'mental_health',
+    name: 'Mental Health',
+    questions: [
+      {
+        id: 'Q19',
+        text: 'Does this person have any known psychiatric disorder diagnoses or medications. If there are no known diagnoses or medications, do they have any unexplained psychiatric symptoms including but not limited to: talking to self, distracted, severe delusions/paranoia, fearful/phobic, extreme depressed or manic mood',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'No known or observed psychiatric challenges', score: 0 },
+          { value: 'b', label: 'Known or observed psychiatric conditions that have minor impacts, i.e. feeling down about experiencing homelessness', score: 1 },
+          { value: 'c', label: 'Known or observed psychiatric conditions that require ongoing treatment', score: 2 },
+          { value: 'd', label: 'Known or observed conditions that have recently resulted in hospitalization, crisis response, suicide attempts, and/or have other major impacts on daily living', score: 3 },
+        ],
+      },
+      {
+        id: 'Q20',
+        text: 'If there is a known psychiatric disorder diagnosis and/or prescribed medication, are they regularly taking medications and/or following through with treatment plan',
+        type: 'multiple_choice',
+        showWhen: { questionId: 'Q19', notValue: 'a' },
+        options: [
+          { value: 'a', label: 'Consistently following through with treatment and/or medication wholly independently', score: 0 },
+          { value: 'b', label: 'Most of the time following through with treatment with staff support', score: 1 },
+          { value: 'c', label: 'Sometimes following through despite staff support', score: 2 },
+          { value: 'd', label: 'Never following through or refusing staff support though clearly needing psychiatric support', score: 3 },
+        ],
+      },
+      {
+        id: 'Q21',
+        text: 'Please share specific observations or incidents to justify above selection',
+        type: 'narrative',
+      },
+    ],
+  },
+  {
+    id: 'communication',
+    name: 'Communication',
+    questions: [
+      {
+        id: 'Q22',
+        text: 'How well are they able to communicate in English',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'Can speak English', score: 0 },
+          { value: 'b', label: 'Limited English but can get by in most situations', score: 1 },
+          { value: 'c', label: 'Little or no English and requires translation services OR physical impairment that requires non-verbal communication', score: 2 },
+          { value: 'd', label: 'No comprehension of English or presents as mute or physical impairments with no non-verbal communication possible', score: 3 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'homelessness',
+    name: 'Homelessness',
+    questions: [
+      {
+        id: 'Q23',
+        text: 'How long have they been homeless',
+        type: 'multiple_choice',
+        options: [
+          { value: 'a', label: 'Less than a month', score: 0 },
+          { value: 'b', label: 'Less than a year', score: 1 },
+          { value: 'c', label: 'Less than five years', score: 2 },
+          { value: 'd', label: 'Over five years', score: 3 },
+        ],
       },
     ],
   },
 ];
 
-export function getAllQuestions() {
-  const questions = [];
+// =============================================================
+// CCS Screening Checklist (yes/no, not scored — for CCS output)
+// =============================================================
+
+export const ccsScreeningQuestions = [
+  { id: 'SC1', text: 'Have you met with this person within the last 48 hours?' },
+  { id: 'SC2', text: 'Can person perform activities of daily living (i.e. showering, toileting, dressing)?' },
+  { id: 'SC3', text: 'Is the person able to walk on their own?' },
+  { id: 'SC4', text: 'If needed, can the person use a mobility device independently?' },
+  { id: 'SC5', text: 'Can the person transfer to/from a bed and/or a toilet independently?' },
+  { id: 'SC6', text: 'Does the person and care team understand that CCS/CCA shelters are not a medical or assisted living facility?' },
+  { id: 'SC7', text: 'Does the person have symptoms of significant cognitive impairment, e.g. due to TBI or dementia?' },
+  { id: 'SC8', text: 'Does the person use a colostomy, urinary catheter, or require tube feeding?' },
+  { id: 'SC9', text: 'Does the person have specialized medical needs such as dressing changes, special diet, supplemental oxygen, etc.?' },
+  { id: 'SC10', text: 'Does the person have a pet and/or a service animal?' },
+  { id: 'SC11', text: 'Does the person have a partner?' },
+];
+
+// =============================================================
+// CCS Qualifying History domain definitions
+// Each CCS domain maps to one or two DESC questions.
+// CCS domain score = max of the mapped DESC question scores (0-3).
+// 7 domains × max 3 = 21 total.
+// =============================================================
+
+export const ccsDomains = [
+  { id: 'ccs_mental_health', name: 'Mental Health', descQuestions: ['Q19', 'Q20'], narrativeId: 'Q21' },
+  { id: 'ccs_organization', name: 'Organization & Orientation', descQuestions: ['Q4', 'Q5'], narrativeId: 'Q6' },
+  { id: 'ccs_survival', name: 'Survival Skills', descQuestions: ['Q1', 'Q2'], narrativeId: 'Q3' },
+  { id: 'ccs_social', name: 'Social Functioning', descQuestions: ['Q16', 'Q17'], narrativeId: 'Q18' },
+  { id: 'ccs_substance', name: 'Substance Use', descQuestions: ['Q10', 'Q11'], narrativeId: 'Q12' },
+  { id: 'ccs_homelessness', name: 'Homelessness', descQuestions: ['Q23'], narrativeId: null },
+  { id: 'ccs_medical', name: 'Medical', descQuestions: ['Q7', 'Q8'], narrativeId: 'Q9' },
+];
+
+// =============================================================
+// Helpers
+// =============================================================
+
+/** Flat lookup: find a question object by id across all domains */
+export function findQuestion(questionId) {
   for (const domain of domains) {
-    for (const question of domain.questions) {
-      questions.push({ ...question, domainId: domain.id });
-      if (question.followUp) {
-        questions.push({ ...question.followUp, domainId: domain.id, isFollowUp: true, parentId: question.id });
-      }
+    for (const q of domain.questions) {
+      if (q.id === questionId) return q;
     }
   }
-  return questions;
+  return null;
 }
 
-// --- DESC scoring helpers ---
-
-export function getMaxScoreForDomain(domainId) {
+/** DESC max score for a single domain */
+export function getDescMaxForDomain(domainId) {
   const domain = domains.find((d) => d.id === domainId);
   if (!domain) return 0;
   let max = 0;
   for (const q of domain.questions) {
     if (q.type === 'multiple_choice') {
       max += Math.max(...q.options.map((o) => o.score));
-    } else if (q.type === 'yes_no') {
-      max += Math.max(q.yesScore, q.noScore);
-    }
-    if (q.followUp && q.followUp.type === 'multiple_choice') {
-      max += Math.max(...q.followUp.options.map((o) => o.score));
     }
   }
   return max;
 }
 
-export function getTotalMaxScore() {
-  return domains.reduce((sum, d) => sum + getMaxScoreForDomain(d.id), 0);
+/** DESC total max across all domains */
+export function getDescTotalMax() {
+  return domains.reduce((sum, d) => sum + getDescMaxForDomain(d.id), 0);
 }
 
-// --- CCS scoring helpers ---
-
-export function getCCSMaxScoreForDomain(domainId) {
-  const domain = domains.find((d) => d.id === domainId);
-  if (!domain) return 0;
-  let max = 0;
-  for (const q of domain.questions) {
-    if (q.type === 'multiple_choice') {
-      max += Math.max(...q.options.map((o) => o.ccsScore));
-    } else if (q.type === 'yes_no') {
-      max += Math.max(q.ccsYesScore, q.ccsNoScore);
-    }
-    if (q.followUp && q.followUp.type === 'multiple_choice') {
-      max += Math.max(...q.followUp.options.map((o) => o.ccsScore));
-    }
-  }
-  return max;
-}
-
-export function getCCSTotalMaxScore() {
-  return domains.reduce((sum, d) => sum + getCCSMaxScoreForDomain(d.id), 0);
+/** CCS total max = number of CCS domains × 3 */
+export function getCCSTotalMax() {
+  return ccsDomains.length * 3; // 21
 }

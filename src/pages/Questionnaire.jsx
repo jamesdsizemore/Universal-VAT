@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useVAT, useVATDispatch } from '../context/VATContext';
-import { domains } from '../data/questions';
+import { domains, ccsScreeningQuestions } from '../data/questions';
+
+// Total sections = DESC domains + 1 CCS screening section
+const TOTAL_SECTIONS = domains.length + 1;
+const CCS_SECTION_INDEX = domains.length;
 
 function QuestionInput({ question, value, onChange }) {
   if (question.type === 'multiple_choice') {
@@ -24,35 +28,9 @@ function QuestionInput({ question, value, onChange }) {
               onChange={() => onChange(question.id, option.value)}
               className="mt-0.5 mr-3 text-indigo-600 focus:ring-indigo-500"
             />
-            <span className="text-sm text-gray-700">{option.label}</span>
-          </label>
-        ))}
-      </div>
-    );
-  }
-
-  if (question.type === 'yes_no') {
-    return (
-      <div className="flex gap-4">
-        {['yes', 'no'].map((opt) => (
-          <label
-            key={opt}
-            className={`flex items-center px-6 py-3 rounded-md border cursor-pointer transition-colors ${
-              value === opt
-                ? 'border-indigo-500 bg-indigo-50'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            <input
-              type="radio"
-              name={question.id}
-              value={opt}
-              checked={value === opt}
-              onChange={() => onChange(question.id, opt)}
-              className="mr-2 text-indigo-600 focus:ring-indigo-500"
-            />
-            <span className="text-sm font-medium text-gray-700 capitalize">
-              {opt}
+            <span className="text-sm text-gray-700">
+              <span className="font-medium mr-1">{option.value}.</span>
+              {option.label}
             </span>
           </label>
         ))}
@@ -66,7 +44,7 @@ function QuestionInput({ question, value, onChange }) {
         value={value || ''}
         onChange={(e) => onChange(question.id, e.target.value)}
         rows={4}
-        placeholder="Enter response here..."
+        placeholder="Enter observations or narrative here..."
         className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-900 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
       />
     );
@@ -75,14 +53,29 @@ function QuestionInput({ question, value, onChange }) {
   return null;
 }
 
-function FollowUpQuestion({ followUp, parentAnswer, value, onChange }) {
-  if (!followUp) return null;
-  if (parentAnswer !== 'yes') return null;
-
+function YesNoInput({ id, value, onChange }) {
   return (
-    <div className="ml-6 mt-3 pl-4 border-l-2 border-indigo-200">
-      <p className="text-sm font-medium text-gray-700 mb-2">{followUp.text}</p>
-      <QuestionInput question={followUp} value={value} onChange={onChange} />
+    <div className="flex gap-4">
+      {['yes', 'no'].map((opt) => (
+        <label
+          key={opt}
+          className={`flex items-center px-6 py-3 rounded-md border cursor-pointer transition-colors ${
+            value === opt
+              ? 'border-indigo-500 bg-indigo-50'
+              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+          }`}
+        >
+          <input
+            type="radio"
+            name={id}
+            value={opt}
+            checked={value === opt}
+            onChange={() => onChange(id, opt)}
+            className="mr-2 text-indigo-600 focus:ring-indigo-500"
+          />
+          <span className="text-sm font-medium text-gray-700 capitalize">{opt}</span>
+        </label>
+      ))}
     </div>
   );
 }
@@ -93,11 +86,11 @@ export default function Questionnaire() {
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState([]);
 
-  const domainIndex = state.currentDomainIndex;
-  const domain = domains[domainIndex];
-  const isFirst = domainIndex === 0;
-  const isLast = domainIndex === domains.length - 1;
-  const progress = ((domainIndex + 1) / domains.length) * 100;
+  const sectionIndex = state.currentDomainIndex;
+  const isCCSSection = sectionIndex === CCS_SECTION_INDEX;
+  const isFirst = sectionIndex === 0;
+  const isLast = sectionIndex === TOTAL_SECTIONS - 1;
+  const progress = ((sectionIndex + 1) / TOTAL_SECTIONS) * 100;
 
   if (!state.hmisUid) {
     navigate('/client-info');
@@ -109,37 +102,42 @@ export default function Questionnaire() {
     setValidationErrors((prev) => prev.filter((id) => id !== questionId));
   }
 
-  function validateDomain() {
+  function shouldShowQuestion(question) {
+    if (!question.showWhen) return true;
+    const parentAnswer = state.answers[question.showWhen.questionId];
+    return parentAnswer && parentAnswer !== question.showWhen.notValue;
+  }
+
+  function validateSection() {
     const errors = [];
-    for (const q of domain.questions) {
-      if (q.type !== 'narrative' && !state.answers[q.id]) {
-        errors.push(q.id);
+    if (isCCSSection) {
+      for (const q of ccsScreeningQuestions) {
+        if (!state.answers[q.id]) errors.push(q.id);
       }
-      if (
-        q.followUp &&
-        q.followUp.type === 'multiple_choice' &&
-        state.answers[q.id] === 'yes' &&
-        !state.answers[q.followUp.id]
-      ) {
-        errors.push(q.followUp.id);
+    } else {
+      const domain = domains[sectionIndex];
+      for (const q of domain.questions) {
+        if (q.type === 'multiple_choice' && shouldShowQuestion(q) && !state.answers[q.id]) {
+          errors.push(q.id);
+        }
       }
     }
     return errors;
   }
 
   function handleNext() {
-    const errors = validateDomain();
+    const errors = validateSection();
     if (errors.length > 0) {
       setValidationErrors(errors);
-      const firstError = document.getElementById(`question-${errors[0]}`);
-      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const el = document.getElementById(`question-${errors[0]}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
     if (isLast) {
       navigate('/format-selection');
     } else {
-      dispatch({ type: 'SET_DOMAIN_INDEX', index: domainIndex + 1 });
+      dispatch({ type: 'SET_DOMAIN_INDEX', index: sectionIndex + 1 });
       setValidationErrors([]);
       window.scrollTo(0, 0);
     }
@@ -149,20 +147,21 @@ export default function Questionnaire() {
     if (isFirst) {
       navigate('/client-info');
     } else {
-      dispatch({ type: 'SET_DOMAIN_INDEX', index: domainIndex - 1 });
+      dispatch({ type: 'SET_DOMAIN_INDEX', index: sectionIndex - 1 });
       setValidationErrors([]);
       window.scrollTo(0, 0);
     }
   }
+
+  // Section labels for nav tabs
+  const sectionLabels = [...domains.map((d) => d.name), 'CCS Screening'];
 
   return (
     <div>
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex justify-between text-sm text-gray-500 mb-1">
-          <span>
-            Section {domainIndex + 1} of {domains.length}
-          </span>
+          <span>Section {sectionIndex + 1} of {TOTAL_SECTIONS}</span>
           <span>{Math.round(progress)}% complete</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
@@ -173,93 +172,77 @@ export default function Questionnaire() {
         </div>
       </div>
 
-      {/* Domain navigation tabs */}
+      {/* Navigation tabs */}
       <div className="flex gap-1 mb-6 overflow-x-auto pb-1">
-        {domains.map((d, i) => (
+        {sectionLabels.map((label, i) => (
           <button
-            key={d.id}
-            onClick={() => {
-              dispatch({ type: 'SET_DOMAIN_INDEX', index: i });
-              setValidationErrors([]);
-              window.scrollTo(0, 0);
-            }}
+            key={i}
+            onClick={() => { dispatch({ type: 'SET_DOMAIN_INDEX', index: i }); setValidationErrors([]); window.scrollTo(0, 0); }}
             className={`px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${
-              i === domainIndex
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              i === sectionIndex ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            {d.shortName}
+            {label}
           </button>
         ))}
       </div>
 
-      {/* Domain header */}
+      {/* Section header */}
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900">{domain.name}</h2>
-        <p className="text-gray-500 text-sm mt-1">{domain.description}</p>
+        <h2 className="text-xl font-bold text-gray-900">
+          {isCCSSection ? 'CCS Screening Checklist' : domains[sectionIndex].name}
+        </h2>
+        {isCCSSection && (
+          <p className="text-gray-500 text-sm mt-1">
+            These yes/no items are included in the CCS/CCA High Acuity Shelter Referral output.
+          </p>
+        )}
       </div>
 
       {/* Questions */}
       <div className="space-y-6">
-        {domain.questions.map((question, qIndex) => {
-          const hasError = validationErrors.includes(question.id);
-          const hasFollowUpError =
-            question.followUp && validationErrors.includes(question.followUp.id);
-
-          return (
-            <div
-              key={question.id}
-              id={`question-${question.id}`}
-              className={`bg-white shadow rounded-lg p-5 border ${
-                hasError ? 'border-red-300 ring-1 ring-red-300' : 'border-gray-100'
-              }`}
-            >
-              <div className="flex items-start gap-3 mb-3">
-                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold flex-shrink-0">
-                  {question.id}
-                </span>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-800">
-                    {question.text}
-                    {question.type !== 'narrative' && (
-                      <span className="text-red-500 ml-1">*</span>
-                    )}
+        {isCCSSection
+          ? ccsScreeningQuestions.map((q) => {
+              const hasError = validationErrors.includes(q.id);
+              return (
+                <div
+                  key={q.id}
+                  id={`question-${q.id}`}
+                  className={`bg-white shadow rounded-lg p-5 border ${hasError ? 'border-red-300 ring-1 ring-red-300' : 'border-gray-100'}`}
+                >
+                  <p className="text-sm font-medium text-gray-800 mb-3">
+                    {q.text} <span className="text-red-500">*</span>
                   </p>
+                  <YesNoInput id={q.id} value={state.answers[q.id]} onChange={handleAnswer} />
+                  {hasError && <p className="text-red-500 text-xs mt-2">This question requires an answer.</p>}
                 </div>
-              </div>
-
-              <div className="ml-10">
-                <QuestionInput
-                  question={question}
-                  value={state.answers[question.id]}
-                  onChange={handleAnswer}
-                />
-                {hasError && (
-                  <p className="text-red-500 text-xs mt-2">
-                    This question requires an answer.
-                  </p>
-                )}
-
-                {question.followUp && (
-                  <div>
-                    <FollowUpQuestion
-                      followUp={question.followUp}
-                      parentAnswer={state.answers[question.id]}
-                      value={state.answers[question.followUp.id]}
-                      onChange={handleAnswer}
-                    />
-                    {hasFollowUpError && (
-                      <p className="text-red-500 text-xs mt-2 ml-6">
-                        This follow-up question requires an answer.
-                      </p>
-                    )}
+              );
+            })
+          : domains[sectionIndex].questions.map((question) => {
+              if (!shouldShowQuestion(question)) return null;
+              const hasError = validationErrors.includes(question.id);
+              return (
+                <div
+                  key={question.id}
+                  id={`question-${question.id}`}
+                  className={`bg-white shadow rounded-lg p-5 border ${hasError ? 'border-red-300 ring-1 ring-red-300' : 'border-gray-100'}`}
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold flex-shrink-0">
+                      {question.id.replace('Q', '')}
+                    </span>
+                    <p className="text-sm font-medium text-gray-800">
+                      {question.text}
+                      {question.type === 'multiple_choice' && <span className="text-red-500 ml-1">*</span>}
+                    </p>
                   </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
+                  <div className="ml-10">
+                    <QuestionInput question={question} value={state.answers[question.id]} onChange={handleAnswer} />
+                    {hasError && <p className="text-red-500 text-xs mt-2">This question requires an answer.</p>}
+                  </div>
+                </div>
+              );
+            })}
       </div>
 
       {/* Navigation */}
