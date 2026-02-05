@@ -11,32 +11,32 @@ export const domains = [
         text: 'Where do you sleep most frequently?',
         type: 'multiple_choice',
         options: [
-          { value: 'own_housing', label: 'Own apartment or house', score: 0 },
+          { value: 'own_housing', label: 'Own apartment or house', score: 0, ccsScore: 0 },
           {
             value: 'family_friends',
             label: 'Staying with family or friends (couch surfing)',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
-          { value: 'shelter', label: 'Emergency shelter', score: 2 },
+          { value: 'shelter', label: 'Emergency shelter', score: 2, ccsScore: 1 },
           {
             value: 'transitional',
             label: 'Transitional housing program',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
           {
             value: 'vehicle',
             label: 'Vehicle (car, van, RV)',
-            score: 3,
+            score: 3, ccsScore: 1,
           },
           {
             value: 'outdoors',
             label: 'Outdoors / street / park / encampment',
-            score: 4,
+            score: 4, ccsScore: 2,
           },
           {
             value: 'abandoned',
             label: 'Abandoned building or other place not meant for habitation',
-            score: 4,
+            score: 4, ccsScore: 2,
           },
         ],
       },
@@ -45,11 +45,11 @@ export const domains = [
         text: 'How long have you been continuously homeless this current episode?',
         type: 'multiple_choice',
         options: [
-          { value: 'less_1_month', label: 'Less than 1 month', score: 0 },
-          { value: '1_3_months', label: '1 - 3 months', score: 1 },
-          { value: '3_6_months', label: '3 - 6 months', score: 2 },
-          { value: '6_12_months', label: '6 - 12 months', score: 3 },
-          { value: 'more_1_year', label: 'More than 1 year', score: 4 },
+          { value: 'less_1_month', label: 'Less than 1 month', score: 0, ccsScore: 0 },
+          { value: '1_3_months', label: '1 - 3 months', score: 1, ccsScore: 0 },
+          { value: '3_6_months', label: '3 - 6 months', score: 2, ccsScore: 0 },
+          { value: '6_12_months', label: '6 - 12 months', score: 3, ccsScore: 1 },
+          { value: 'more_1_year', label: 'More than 1 year', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -57,10 +57,10 @@ export const domains = [
         text: 'How many separate times (episodes) have you experienced homelessness in the past 3 years?',
         type: 'multiple_choice',
         options: [
-          { value: 'first_time', label: 'This is my first time', score: 0 },
-          { value: '2_times', label: '2 times', score: 1 },
-          { value: '3_times', label: '3 times', score: 2 },
-          { value: '4_plus', label: '4 or more times', score: 4 },
+          { value: 'first_time', label: 'This is my first time', score: 0, ccsScore: 0 },
+          { value: '2_times', label: '2 times', score: 1, ccsScore: 0 },
+          { value: '3_times', label: '3 times', score: 2, ccsScore: 1 },
+          { value: '4_plus', label: '4 or more times', score: 4, ccsScore: 1 },
         ],
       },
     ],
@@ -77,11 +77,11 @@ export const domains = [
         text: 'How many times have you visited the emergency room in the past 6 months?',
         type: 'multiple_choice',
         options: [
-          { value: '0', label: '0 times', score: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1 },
-          { value: '3_5', label: '3 - 5 times', score: 2 },
-          { value: '6_9', label: '6 - 9 times', score: 3 },
-          { value: '10_plus', label: '10 or more times', score: 4 },
+          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
+          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
+          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
+          { value: '6_9', label: '6 - 9 times', score: 3, ccsScore: 1 },
+          { value: '10_plus', label: '10 or more times', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -89,10 +89,10 @@ export const domains = [
         text: 'How many times have you been hospitalized (admitted overnight or longer) in the past 6 months?',
         type: 'multiple_choice',
         options: [
-          { value: '0', label: '0 times', score: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1 },
-          { value: '3_5', label: '3 - 5 times', score: 3 },
-          { value: '6_plus', label: '6 or more times', score: 4 },
+          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
+          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
+          { value: '3_5', label: '3 - 5 times', score: 3, ccsScore: 1 },
+          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -100,10 +100,10 @@ export const domains = [
         text: 'How many times have you used crisis services (e.g., crisis line, crisis team, sobering center) in the past 6 months?',
         type: 'multiple_choice',
         options: [
-          { value: '0', label: '0 times', score: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1 },
-          { value: '3_5', label: '3 - 5 times', score: 2 },
-          { value: '6_plus', label: '6 or more times', score: 4 },
+          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
+          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
+          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
+          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -111,10 +111,10 @@ export const domains = [
         text: 'How many times have you had interactions with police or law enforcement in the past 6 months?',
         type: 'multiple_choice',
         options: [
-          { value: '0', label: '0 times', score: 0 },
-          { value: '1_2', label: '1 - 2 times', score: 1 },
-          { value: '3_5', label: '3 - 5 times', score: 2 },
-          { value: '6_plus', label: '6 or more times', score: 4 },
+          { value: '0', label: '0 times', score: 0, ccsScore: 0 },
+          { value: '1_2', label: '1 - 2 times', score: 1, ccsScore: 0 },
+          { value: '3_5', label: '3 - 5 times', score: 2, ccsScore: 1 },
+          { value: '6_plus', label: '6 or more times', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -123,6 +123,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 4,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
       },
       {
         id: 'B6',
@@ -130,6 +132,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 4,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
       },
       {
         id: 'B7',
@@ -137,6 +141,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 2,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
       },
       {
         id: 'B8',
@@ -160,27 +166,27 @@ export const domains = [
           {
             value: 'independent',
             label: 'I handle these independently without difficulty',
-            score: 0,
+            score: 0, ccsScore: 0,
           },
           {
             value: 'mostly',
             label: 'I manage most of the time but sometimes struggle',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
           {
             value: 'difficulty',
             label: 'I often have difficulty and need some assistance',
-            score: 2,
+            score: 2, ccsScore: 1,
           },
           {
             value: 'significant',
             label: 'I have significant difficulty and regularly need help',
-            score: 3,
+            score: 3, ccsScore: 2,
           },
           {
             value: 'unable',
             label: 'I am unable to take care of these needs on my own',
-            score: 4,
+            score: 4, ccsScore: 2,
           },
         ],
       },
@@ -192,28 +198,28 @@ export const domains = [
           {
             value: 'well',
             label: 'I manage my money well on my own',
-            score: 0,
+            score: 0, ccsScore: 0,
           },
           {
             value: 'some_difficulty',
             label: 'I have some difficulty but generally manage',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
           {
             value: 'often_struggle',
             label: 'I often struggle with money management',
-            score: 2,
+            score: 2, ccsScore: 1,
           },
           {
             value: 'significant',
             label:
               'I have significant difficulty and money is frequently mismanaged',
-            score: 3,
+            score: 3, ccsScore: 1,
           },
           {
             value: 'unable',
             label: 'I cannot manage money on my own at all',
-            score: 4,
+            score: 4, ccsScore: 1,
           },
         ],
       },
@@ -226,28 +232,28 @@ export const domains = [
             value: 'strong',
             label:
               'I have a strong support network of family, friends, or community',
-            score: 0,
+            score: 0, ccsScore: 0,
           },
           {
             value: 'some',
             label: 'I have some supportive relationships',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
           {
             value: 'few',
             label: 'I have very few connections and often feel isolated',
-            score: 2,
+            score: 2, ccsScore: 1,
           },
           {
             value: 'conflict',
             label:
               'My relationships are mostly conflictual or harmful',
-            score: 3,
+            score: 3, ccsScore: 1,
           },
           {
             value: 'none',
             label: 'I have no support network at all',
-            score: 4,
+            score: 4, ccsScore: 1,
           },
         ],
       },
@@ -270,14 +276,14 @@ export const domains = [
         text: 'How would you rate your overall physical health?',
         type: 'multiple_choice',
         options: [
-          { value: 'excellent', label: 'Excellent', score: 0 },
-          { value: 'good', label: 'Good', score: 1 },
-          { value: 'fair', label: 'Fair', score: 2 },
-          { value: 'poor', label: 'Poor', score: 3 },
+          { value: 'excellent', label: 'Excellent', score: 0, ccsScore: 0 },
+          { value: 'good', label: 'Good', score: 1, ccsScore: 0 },
+          { value: 'fair', label: 'Fair', score: 2, ccsScore: 0 },
+          { value: 'poor', label: 'Poor', score: 3, ccsScore: 1 },
           {
             value: 'very_poor',
             label: 'Very poor / serious health conditions',
-            score: 4,
+            score: 4, ccsScore: 1,
           },
         ],
       },
@@ -287,6 +293,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 2,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
         followUp: {
           id: 'D2a',
           text: 'If yes, please describe your chronic health conditions:',
@@ -299,15 +307,17 @@ export const domains = [
         type: 'yes_no',
         yesScore: 1,
         noScore: 0,
+        ccsYesScore: 0,
+        ccsNoScore: 0,
         followUp: {
           id: 'D3a',
           text: 'If yes, are you able to take them as prescribed consistently?',
           type: 'multiple_choice',
           options: [
-            { value: 'always', label: 'Yes, always', score: 0 },
-            { value: 'usually', label: 'Usually, but sometimes miss doses', score: 1 },
-            { value: 'rarely', label: 'Rarely - I often cannot access or take them', score: 2 },
-            { value: 'never', label: 'No - I am unable to take them as prescribed', score: 3 },
+            { value: 'always', label: 'Yes, always', score: 0, ccsScore: 0 },
+            { value: 'usually', label: 'Usually, but sometimes miss doses', score: 1, ccsScore: 0 },
+            { value: 'rarely', label: 'Rarely - I often cannot access or take them', score: 2, ccsScore: 0 },
+            { value: 'never', label: 'No - I am unable to take them as prescribed', score: 3, ccsScore: 0 },
           ],
         },
       },
@@ -316,19 +326,19 @@ export const domains = [
         text: 'How often do you use alcohol or drugs?',
         type: 'multiple_choice',
         options: [
-          { value: 'never', label: 'Never', score: 0 },
+          { value: 'never', label: 'Never', score: 0, ccsScore: 0 },
           {
             value: 'rarely',
             label: 'Rarely (a few times a year or less)',
-            score: 0,
+            score: 0, ccsScore: 0,
           },
           {
             value: 'monthly',
             label: 'Monthly or a few times a month',
-            score: 1,
+            score: 1, ccsScore: 0,
           },
-          { value: 'weekly', label: 'Weekly', score: 2 },
-          { value: 'daily', label: 'Daily or almost daily', score: 4 },
+          { value: 'weekly', label: 'Weekly', score: 2, ccsScore: 1 },
+          { value: 'daily', label: 'Daily or almost daily', score: 4, ccsScore: 1 },
         ],
       },
       {
@@ -337,6 +347,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 3,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
       },
       {
         id: 'D6',
@@ -344,6 +356,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 2,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
         followUp: {
           id: 'D6a',
           text: 'If yes, please describe your mental health condition(s):',
@@ -356,6 +370,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 3,
         noScore: 0,
+        ccsYesScore: 1,
+        ccsNoScore: 0,
       },
       {
         id: 'D8',
@@ -363,6 +379,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 2,
         noScore: 0,
+        ccsYesScore: 0,
+        ccsNoScore: 0,
         followUp: {
           id: 'D8a',
           text: 'If yes, please describe your disability or disabilities:',
@@ -375,6 +393,8 @@ export const domains = [
         type: 'yes_no',
         yesScore: 2,
         noScore: 0,
+        ccsYesScore: 0,
+        ccsNoScore: 0,
       },
       {
         id: 'D10',
@@ -398,6 +418,8 @@ export function getAllQuestions() {
   return questions;
 }
 
+// --- DESC scoring helpers ---
+
 export function getMaxScoreForDomain(domainId) {
   const domain = domains.find((d) => d.id === domainId);
   if (!domain) return 0;
@@ -417,4 +439,27 @@ export function getMaxScoreForDomain(domainId) {
 
 export function getTotalMaxScore() {
   return domains.reduce((sum, d) => sum + getMaxScoreForDomain(d.id), 0);
+}
+
+// --- CCS scoring helpers ---
+
+export function getCCSMaxScoreForDomain(domainId) {
+  const domain = domains.find((d) => d.id === domainId);
+  if (!domain) return 0;
+  let max = 0;
+  for (const q of domain.questions) {
+    if (q.type === 'multiple_choice') {
+      max += Math.max(...q.options.map((o) => o.ccsScore));
+    } else if (q.type === 'yes_no') {
+      max += Math.max(q.ccsYesScore, q.ccsNoScore);
+    }
+    if (q.followUp && q.followUp.type === 'multiple_choice') {
+      max += Math.max(...q.followUp.options.map((o) => o.ccsScore));
+    }
+  }
+  return max;
+}
+
+export function getCCSTotalMaxScore() {
+  return domains.reduce((sum, d) => sum + getCCSMaxScoreForDomain(d.id), 0);
 }

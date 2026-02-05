@@ -1,4 +1,14 @@
-import { domains, getMaxScoreForDomain, getTotalMaxScore } from '../data/questions';
+import {
+  domains,
+  getMaxScoreForDomain,
+  getTotalMaxScore,
+  getCCSMaxScoreForDomain,
+  getCCSTotalMaxScore,
+} from '../data/questions';
+
+// =============================================
+// DESC scoring (extended)
+// =============================================
 
 export function getQuestionScore(question, answer) {
   if (!answer && answer !== false) return 0;
@@ -112,6 +122,86 @@ export function getDomainBreakdown(answers) {
     };
   });
 }
+
+// =============================================
+// CCS scoring (compact, max 21)
+// =============================================
+
+export function getCCSQuestionScore(question, answer) {
+  if (!answer && answer !== false) return 0;
+
+  if (question.type === 'multiple_choice') {
+    const option = question.options.find((o) => o.value === answer);
+    return option ? option.ccsScore : 0;
+  }
+
+  if (question.type === 'yes_no') {
+    return answer === 'yes' ? question.ccsYesScore : question.ccsNoScore;
+  }
+
+  return 0;
+}
+
+export function getCCSDomainScore(domainId, answers) {
+  const domain = domains.find((d) => d.id === domainId);
+  if (!domain) return 0;
+
+  let score = 0;
+  for (const q of domain.questions) {
+    score += getCCSQuestionScore(q, answers[q.id]);
+    if (q.followUp && q.followUp.type === 'multiple_choice') {
+      score += getCCSQuestionScore(q.followUp, answers[q.followUp.id]);
+    }
+  }
+  return score;
+}
+
+export function getCCSTotalScore(answers) {
+  return domains.reduce((sum, d) => sum + getCCSDomainScore(d.id, answers), 0);
+}
+
+export function getCCSRiskLevel(score) {
+  const max = getCCSTotalMaxScore(); // 21
+  const pct = score / max;
+
+  if (pct < 0.25) return { level: 'Low', color: 'green', description: 'Low vulnerability - may benefit from light-touch services or prevention resources.' };
+  if (pct < 0.5) return { level: 'Moderate', color: 'yellow', description: 'Moderate vulnerability - would benefit from targeted support services and case management.' };
+  if (pct < 0.75) return { level: 'High', color: 'orange', description: 'High vulnerability - needs intensive support services and prioritized housing placement.' };
+  return { level: 'Severe', color: 'red', description: 'Severe vulnerability - requires immediate intervention and highest priority for permanent supportive housing.' };
+}
+
+export function getCCSDomainRiskLevel(domainId, answers) {
+  const score = getCCSDomainScore(domainId, answers);
+  const max = getCCSMaxScoreForDomain(domainId);
+  if (max === 0) return { level: 'N/A', color: 'gray' };
+  const pct = score / max;
+
+  if (pct < 0.25) return { level: 'Low', color: 'green' };
+  if (pct < 0.5) return { level: 'Moderate', color: 'yellow' };
+  if (pct < 0.75) return { level: 'High', color: 'orange' };
+  return { level: 'Severe', color: 'red' };
+}
+
+export function getCCSDomainBreakdown(answers) {
+  return domains.map((domain) => {
+    const score = getCCSDomainScore(domain.id, answers);
+    const maxScore = getCCSMaxScoreForDomain(domain.id);
+    const risk = getCCSDomainRiskLevel(domain.id, answers);
+
+    return {
+      id: domain.id,
+      name: domain.name,
+      shortName: domain.shortName,
+      score,
+      maxScore,
+      risk,
+    };
+  });
+}
+
+// =============================================
+// Shared helpers
+// =============================================
 
 export function getNarrativeResponses(answers) {
   const narratives = [];

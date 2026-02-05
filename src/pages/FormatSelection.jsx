@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useVAT } from '../context/VATContext';
-import { getTotalScore, getRiskLevel } from '../utils/scoring';
-import { getTotalMaxScore } from '../data/questions';
+import { getTotalScore, getRiskLevel, getCCSTotalScore, getCCSRiskLevel } from '../utils/scoring';
+import { getTotalMaxScore, getCCSTotalMaxScore } from '../data/questions';
 
 export default function FormatSelection() {
   const state = useVAT();
@@ -12,9 +12,13 @@ export default function FormatSelection() {
     return null;
   }
 
-  const totalScore = getTotalScore(state.answers);
-  const maxScore = getTotalMaxScore();
-  const risk = getRiskLevel(totalScore);
+  const descScore = getTotalScore(state.answers);
+  const descMax = getTotalMaxScore();
+  const descRisk = getRiskLevel(descScore);
+
+  const ccsScore = getCCSTotalScore(state.answers);
+  const ccsMax = getCCSTotalMaxScore(); // 21
+  const ccsRisk = getCCSRiskLevel(ccsScore);
 
   const riskColorClasses = {
     green: 'bg-green-100 text-green-800 border-green-300',
@@ -33,7 +37,7 @@ export default function FormatSelection() {
         then select an output format.
       </p>
 
-      {/* Summary card */}
+      {/* Client info summary */}
       <div className="bg-white shadow rounded-lg p-6 mb-8 border border-gray-100">
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
@@ -45,26 +49,6 @@ export default function FormatSelection() {
             <p className="font-semibold text-gray-900">{state.completionDate}</p>
           </div>
         </div>
-        <div className="border-t pt-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide">
-                Total Vulnerability Score
-              </p>
-              <p className="text-3xl font-bold text-gray-900">
-                {totalScore}{' '}
-                <span className="text-lg font-normal text-gray-400">
-                  / {maxScore}
-                </span>
-              </p>
-            </div>
-            <span
-              className={`px-4 py-2 rounded-full text-sm font-bold border ${riskColorClasses[risk.color]}`}
-            >
-              {risk.level} Vulnerability
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Format selection */}
@@ -72,16 +56,33 @@ export default function FormatSelection() {
         Select Output Format
       </h3>
       <div className="grid md:grid-cols-2 gap-4 mb-8">
+        {/* DESC card */}
         <button
           onClick={() => navigate('/output/desc')}
           className="bg-white shadow rounded-lg p-6 border-2 border-gray-200 hover:border-indigo-500 hover:shadow-md transition-all text-left group"
         >
-          <h4 className="font-bold text-gray-900 mb-2 group-hover:text-indigo-600">
+          <h4 className="font-bold text-gray-900 mb-1 group-hover:text-indigo-600">
             DESC Mini VAT
           </h4>
-          <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+          <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
             Extended Scoring
           </p>
+
+          {/* Score preview */}
+          <div className="bg-gray-50 rounded-md p-3 mb-3 border border-gray-100">
+            <div className="flex items-center justify-between">
+              <p className="text-2xl font-bold text-gray-900">
+                {descScore}
+                <span className="text-sm font-normal text-gray-400"> / {descMax}</span>
+              </p>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${riskColorClasses[descRisk.color]}`}
+              >
+                {descRisk.level}
+              </span>
+            </div>
+          </div>
+
           <ul className="text-sm text-gray-500 space-y-1">
             <li>- Domain-by-domain score breakdown</li>
             <li>- Individual question scores</li>
@@ -91,16 +92,33 @@ export default function FormatSelection() {
           </ul>
         </button>
 
+        {/* CCS card */}
         <button
           onClick={() => navigate('/output/ccs')}
           className="bg-white shadow rounded-lg p-6 border-2 border-gray-200 hover:border-indigo-500 hover:shadow-md transition-all text-left group"
         >
-          <h4 className="font-bold text-gray-900 mb-2 group-hover:text-indigo-600">
+          <h4 className="font-bold text-gray-900 mb-1 group-hover:text-indigo-600">
             CCS Simple VAT
           </h4>
-          <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
-            Compact Score
+          <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
+            Compact Score (0&ndash;{ccsMax})
           </p>
+
+          {/* Score preview */}
+          <div className="bg-gray-50 rounded-md p-3 mb-3 border border-gray-100">
+            <div className="flex items-center justify-between">
+              <p className="text-2xl font-bold text-gray-900">
+                {ccsScore}
+                <span className="text-sm font-normal text-gray-400"> / {ccsMax}</span>
+              </p>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${riskColorClasses[ccsRisk.color]}`}
+              >
+                {ccsRisk.level}
+              </span>
+            </div>
+          </div>
+
           <ul className="text-sm text-gray-500 space-y-1">
             <li>- Single composite score</li>
             <li>- Overall risk level</li>
